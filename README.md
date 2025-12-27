@@ -8,8 +8,9 @@ A powerful yet simple web application built with Flask that allows you to compre
 Watch the complete application walkthrough and see all features in action:
 
 ## Project Demo Video
-
-**uploads/compressed_972fd815.mp4**
+[
+**uploads/compressed_972fd815.mp4**](https://github.com/Feerozhan/image-and-Video-Compression-Tool/raw/main/uploads/compressed_972fd815.mp4
+)
 
 
 
