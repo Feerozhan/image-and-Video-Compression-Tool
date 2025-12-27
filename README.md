@@ -9,7 +9,8 @@ Watch the complete application walkthrough and see all features in action:
 
 ## Project Demo Video
 
-[Watch Demo Video](video/2025-12-26%2017-44-56.mkv)
+[Watch Demo](uploads/compressed_972fd815.mp4)
+
 
 
 > 📹 **Note:** Download and play the demo video from the `video/` folder to see:
