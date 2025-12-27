@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Compressor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-compress-alt"></i>  Compressor</h1>
+            <p class="subtitle">Compress and resize images & videos without quality loss</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-button active" data-tab="image-tab">
+                <i class="fas fa-image"></i> Image Compressor
+            </button>
+            <button class="tab-button" data-tab="video-tab">
+                <i class="fas fa-video"></i> Video Compressor
+            </button>
+        </div>
+
+        <!-- Image Compression Tab -->
+        <div id="image-tab" class="tab-content active">
+            <!-- Hidden file input -->
+            <input type="file" id="image-input" accept=".png,.jpg,.jpeg,.gif,.bmp,.webp" style="display: none;">
+            
+            <div class="upload-area" id="image-upload-area">
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                <h3>Upload Image</h3>
+                <p>Drag & drop or click to select image files (PNG, JPG, GIF, BMP, WEBP)</p>
+                <p class="file-info">Max file size: 100MB</p>
+                <button type="button" class="upload-button">
+                    <i class="fas fa-folder-open"></i> Choose Image
+                </button>
+            </div>
+
+            <div class="file-info-section" id="image-file-info" style="display: none;">
+                <h3><i class="fas fa-file-image"></i> Image Details</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">File Name:</span>
+                        <span id="image-file-name" class="info-value">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Original Size:</span>
+                        <span id="image-original-size" class="info-value">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Download:</span>
+                        <a id="image-original-download" class="download-link" href="#" target="_blank">
+                            <i class="fas fa-download"></i> Original
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="compression-settings">
+                <h3><i class="fas fa-sliders-h"></i> Compression Settings</h3>
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label for="image-quality">Quality (%):</label>
+                        <input type="range" id="image-quality" min="10" max="100" value="85">
+                        <span id="image-quality-value">85%</span>
+                        <div class="quality-note">Higher = Better Quality, Larger File</div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="image-max-width">Max Width (px):</label>
+                        <input type="number" id="image-max-width" min="0" placeholder="Optional">
+                        <div class="setting-note">0 = Keep original width</div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="image-max-height">Max Height (px):</label>
+                        <input type="number" id="image-max-height" min="0" placeholder="Optional">
+                        <div class="setting-note">0 = Keep original height</div>
+                    </div>
+                </div>
+                
+                <button id="compress-image" class="compress-button">
+                    <i class="fas fa-compress-alt"></i> Compress Image
+                </button>
+            </div>
+
+            <div class="result-section" id="image-result" style="display: none;">
+                <h3><i class="fas fa-check-circle"></i> Compression Results</h3>
+                <div class="result-grid">
+                    <div class="result-item">
+                        <span class="result-label">Original Size:</span>
+                        <span id="image-result-original" class="result-value">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Compressed Size:</span>
+                        <span id="image-result-compressed" class="result-value">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Reduction:</span>
+                        <span id="image-result-reduction" class="result-value reduction">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Download:</span>
+                        <a id="image-compressed-download" class="download-button" href="#" target="_blank">
+                            <i class="fas fa-download"></i> Download Compressed
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Compression Tab -->
+        <div id="video-tab" class="tab-content">
+            <!-- Hidden file input -->
+            <input type="file" id="video-input" accept=".mp4,.avi,.mov,.mkv,.webm,.flv" style="display: none;">
+            
+            <div class="upload-area" id="video-upload-area">
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                <h3>Upload Video</h3>
+                <p>Drag & drop or click to select video files (MP4, AVI, MOV, MKV, WEBM, FLV)</p>
+                <p class="file-info">Max file size: 100MB</p>
+                <button type="button" class="upload-button">
+                    <i class="fas fa-folder-open"></i> Choose Video
+                </button>
+                <div class="ffmpeg-warning">
+                    <i class="fas fa-exclamation-triangle"></i> Note: FFmpeg must be installed on the server for video compression
+                </div>
+            </div>
+
+            <div class="file-info-section" id="video-file-info" style="display: none;">
+                <h3><i class="fas fa-file-video"></i> Video Details</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">File Name:</span>
+                        <span id="video-file-name" class="info-value">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Original Size:</span>
+                        <span id="video-original-size" class="info-value">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Download:</span>
+                        <a id="video-original-download" class="download-link" href="#" target="_blank">
+                            <i class="fas fa-download"></i> Original
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="compression-settings">
+                <h3><i class="fas fa-sliders-h"></i> Compression Settings</h3>
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label for="video-quality">Quality (%):</label>
+                        <input type="range" id="video-quality" min="10" max="100" value="70">
+                        <span id="video-quality-value">70%</span>
+                        <div class="quality-note">Higher = Better Quality, Larger File</div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="video-max-width">Max Width (px):</label>
+                        <input type="number" id="video-max-width" min="0" placeholder="Optional">
+                        <div class="setting-note">0 = Keep original width</div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="video-max-height">Max Height (px):</label>
+                        <input type="number" id="video-max-height" min="0" placeholder="Optional">
+                        <div class="setting-note">0 = Keep original height</div>
+                    </div>
+                </div>
+                
+                <button id="compress-video" class="compress-button">
+                    <i class="fas fa-compress-alt"></i> Compress Video
+                </button>
+            </div>
+
+            <div class="result-section" id="video-result" style="display: none;">
+                <h3><i class="fas fa-check-circle"></i> Compression Results</h3>
+                <div class="result-grid">
+                    <div class="result-item">
+                        <span class="result-label">Original Size:</span>
+                        <span id="video-result-original" class="result-value">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Compressed Size:</span>
+                        <span id="video-result-compressed" class="result-value">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Reduction:</span>
+                        <span id="video-result-reduction" class="result-value reduction">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Download:</span>
+                        <a id="video-compressed-download" class="download-button" href="#" target="_blank">
+                            <i class="fas fa-download"></i> Download Compressed
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> How to Use</h3>
+            <ol>
+                <li>Select the <strong>Image Compressor</strong> or <strong>Video Compressor</strong> tab</li>
+                <li>Upload your file (drag & drop or click to browse)</li>
+                <li>Adjust compression settings (quality, dimensions)</li>
+                <li>Click <strong>Compress</strong> to process your file</li>
+                <li>Download the compressed file when ready</li>
+            </ol>
+            <div class="note">
+                <i class="fas fa-lightbulb"></i> 
+                <strong>Tip:</strong> For best results, try different quality settings to find the right balance between file size and quality.
+            </div>
+        </div>
+
+        <footer>
+            <p>Free File Compressor &copy; 2023 | Built with Flask, HTML, CSS & JavaScript</p>
+            <p class="footer-note">All processing is done locally on the server. Files are automatically deleted after 1 hour.</p>
+        </footer>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loading-modal" class="modal">
+        <div class="modal-content">
+            <div class="loader"></div>
+            <h3>Compressing File...</h3>
+            <p id="loading-message">Please wait while we process your file.</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
