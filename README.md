@@ -7,7 +7,10 @@ A powerful yet simple web application built with Flask that allows you to compre
 ### 🎬 Video Demonstration
 Watch the complete application walkthrough and see all features in action:
 
-**Demo Video:** [`video/2025-12-26 17-44-56.mkv`](video/2025-12-26%2017-44-56.mkv)
+## Project Demo Video
+
+[Watch Demo Video](video/2025-12-26%2017-44-56.mkv)
+
 
 > 📹 **Note:** Download and play the demo video from the `video/` folder to see:
 > - Image compression workflow
