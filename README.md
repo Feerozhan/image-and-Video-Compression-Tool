@@ -9,7 +9,8 @@ Watch the complete application walkthrough and see all features in action:
 
 ## Project Demo Video
 
-[Watch Demo](uploads/compressed_972fd815.mp4)
+[[Watch Demo](uploads/compressed_972fd815.mp4)](https://github.com/Feerozhan/file-compressor/blob/main/uploads/compressed_972fd815.mp4
+)
 
 
 
